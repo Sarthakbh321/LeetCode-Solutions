@@ -1,40 +1,16 @@
 class Solution {
 public:
-    void print(vector<int> vec) {
-        for(int x: vec) {
-            cout << x << " ";
-        }
-
-    }
-    int calculateScore(vector<int>& vec) {
-        int res = 0;
-        for(int num: vec) {
-            res ^= num;
-        }
-        
-        return res;
-    }
-    
-    void recurse(vector<int> curr, vector<int>& og, int idx, int& res) {
-        if(idx > og.size()) return;
-        
-        res += calculateScore(curr);
-        // print(curr);
-        // cout << idx << endl;
-        
-        for(int i = idx; i < og.size(); i++) {
-            vector<int> newVec = curr;
-            newVec.push_back(og[i]);
-            
-            recurse(newVec, og, i+1, res);
-        }
-        
-    }
     int subsetXORSum(vector<int>& nums) {
         int res = 0;
-        vector<int> startVec = {};
-        
-        recurse(startVec, nums, 0, res);
+        for(int i = 0; i < pow(2, nums.size()); i++) {
+            int xors = 0;
+            for(int j = 0; j < nums.size(); j++) {
+                if(i & (1 << j)) {
+                    xors ^= nums[j];
+                }
+            }
+            res += xors;
+        }
         
         return res;
     }
